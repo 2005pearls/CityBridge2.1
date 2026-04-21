@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "root";
-$dbname = "CityBridge2.1";
+$dbname = "test";
 $port=8889;
 
 $conn = new mysqli($host, $user, $password, $dbname,$port);

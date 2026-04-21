@@ -1,5 +1,5 @@
 # CityBridge 
-
+**CityBridge** is a web system that manages permit requests and approvals in one place, with clear tracking and status updates.
 ##  Test credentials
 
 

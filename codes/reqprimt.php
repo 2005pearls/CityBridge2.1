@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $fileField = $fileFieldByType[$permit_type] ?? null;
 
             if ($fileField && isset($_FILES[$fileField]) && $_FILES[$fileField]["error"] === UPLOAD_ERR_OK) {
-                $uploadDir = "uploads/";
+              $uploadDir = __DIR__ . "/uploads/";
                 if (!is_dir($uploadDir)) @mkdir($uploadDir, 0777, true);
 
                 $origName  = basename($_FILES[$fileField]["name"]);
@@ -110,16 +110,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     throw new Exception("Only PDF, JPG or PNG files are allowed.");
                 }
                 $safeName  = "p{$permit_id}_" . time() . "." . $ext;
-                $destPath  = $uploadDir . $safeName;
+               $destPath  = $uploadDir . $safeName;
 
                 if (!move_uploaded_file($_FILES[$fileField]["tmp_name"], $destPath)) {
                     throw new Exception("Failed to save uploaded file.");
                 }
-
+                $dbPath = "uploads/" . $safeName;
                 $a = $conn->prepare(
                   "INSERT INTO attachment (permit_id, file_name, file_type, file_path)
                    VALUES (?, ?, ?, ?)");
-                $a->bind_param("isss", $permit_id, $origName, $ext, $destPath);
+                $a->bind_param("isss", $permit_id, $origName, $ext, $dbPath);
                 $a->execute();
                 $a->close();
             }
